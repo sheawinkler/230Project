@@ -1,0 +1,39 @@
+Team2_Lab9.txt
+
+Part 1 questions
+1. What are control flags?
+	Answer: Control flags are signals that are set high or low to determine which route to take, such as which multiplexor input is selected, or which operation is performed by the ALU.
+
+2. Which control flags are set during an Add instruction?
+	Answer: flags for stage 3 only? ALU...(double check this)
+	
+Part 2 questions
+1. How do you end an if statement in VHDL?
+	Answer: END IF;
+	
+2. Why should a control unit be sequential?
+	Answer: A control unit should be sequential because we only want to update the values of the control unit at the rising edge of the clock.
+
+3. How do you check if the clock is on the rising edge in VHDL?
+	Answer: IF(rising_edge(Clock)) THEN
+				IF(enable = '1') THEN
+					output <= data;
+					
+4. How would you write the following C Code in VHDL?
+		if(x == 0b01)
+			y = 0b00;
+		else if(x == 0b10)
+			y = 0b01;
+		else
+			x = 0b00;
+	Answer: 
+		IF(x = "01") THEN
+		y <= "00";
+		ELSIF(x = "10") THEN
+		y <= "01";
+		ELSE
+		x <= "00";
+		ENDIF;
+
+
+	
