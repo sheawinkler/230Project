@@ -63,7 +63,28 @@ begin
 			inc_select <= '0';
 			
 		-- register load
-		ELSIF()
+		ELSIF(stage = 2) THEN
+			
+			wmfc <= '0';
+			ir_enable <= '0';
+			mem_read <= '0';
+			pc_enable <= '0';
+		
+		-- ALU, branch, jump operation
+		ELSIF(stage = 3) THEN
+			-- R-type instructions
+			IF(opCode(3) = '0' AND opCode(2) = '0') THEN
+				IF(opCode(1) = '0' AND opCode(0) = '1') THEN
+					-- This is for JR, just fill in the values for the 
+		
+		-- Memory stage
+		ELSIF(stage = 4) THEN
+		
+		
+		-- Write back stage
+		ELSIF(stage = 5) THEN
+		
+		
 		END IF;
 	END PROCESS;
 
