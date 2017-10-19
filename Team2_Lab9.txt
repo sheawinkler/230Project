@@ -35,5 +35,12 @@ Part 2 questions
 		x <= "00";
 		ENDIF;
 
-
-	
+Final questions
+1. What components are used in stage 3 of our processor?  Remember, stage 3 is the execution stage.
+	Answer: Stage 3 uses an arithmetic logic unit (ALU).
+2. What should alu_op be set to for an XOR instruction?
+	Answer: alu_op <= "10"; (alu_op is set to 10.)
+3. What happens when reset is 1?
+	Answer: stage := 0; (The stage is set to stage 0, and the process starts over.)
+4. What control signal is assigned in stage 5 for a Sub instruction?
+	Answer: rf_write <= '1'; (It will write to the register file using the destination address.)
