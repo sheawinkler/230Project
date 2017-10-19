@@ -12,11 +12,11 @@ entity ControlUnit is
 			clock, reset 							:in std_logic;
 			
 			alu_op, c_select, y_select			:out std_logic_vector(1 downto 0);
-			rf_write, b_select 					:out std_logic
-			a_inv, b_inv 							:out std_logic
+			rf_write, b_select 					:out std_logic;
+			a_inv, b_inv 							:out std_logic;
 			extend 									:out std_logic_vector(1 downto 0);
-			ir_enable, ma_select 				:out std_logic
-			mem_read, mem_write 					:out std_logic
+			ir_enable, ma_select 				:out std_logic;
+			mem_read, mem_write 					:out std_logic;
 			pc_select, pc_enable, inc_select	:out std_logic
 		);
 		
