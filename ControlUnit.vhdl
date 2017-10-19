@@ -75,8 +75,29 @@ begin
 			-- R-type instructions
 			IF(opCode(3) = '0' AND opCode(2) = '0') THEN
 				IF(opCode(1) = '0' AND opCode(0) = '1') THEN
-					-- This is for JR, just fill in the values for the 
-		
+					-- This is for JR, just fill in the values for the if statement
+				ELSIF(opCode(1) = '0' AND opCode(0) = '0') THEN
+					-- This is for the other instructions
+					IF(opx = "111")THEN
+						-- AND insturction
+						alu_op <= "";
+					ELSIF(opx = "110")THEN
+						-- OR insturction
+						alu_op <= "";
+					ELSIF(opx = "101")THEN
+						-- XOR insturction
+						alu_op <= "";
+					ELSIF(opx = "100")THEN
+						-- ADD insturction
+						alu_op <= "";
+					ELSIF(opx = "011")THEN
+						-- SUB insturction
+						alu_op <= "";
+						b_inv <= '';
+					END IF;
+				END IF;
+			END IF;
+				
 		-- Memory stage
 		ELSIF(stage = 4) THEN
 		
