@@ -80,31 +80,45 @@ begin
 					-- This is for the other instructions
 					IF(opx = "111")THEN
 						-- AND insturction
-						alu_op <= "";
+						alu_op <= "00";
 					ELSIF(opx = "110")THEN
 						-- OR insturction
-						alu_op <= "";
+						alu_op <= "01";
 					ELSIF(opx = "101")THEN
 						-- XOR insturction
-						alu_op <= "";
+						alu_op <= "10";
 					ELSIF(opx = "100")THEN
 						-- ADD insturction
-						alu_op <= "";
+						alu_op <= "11";
 					ELSIF(opx = "011")THEN
 						-- SUB insturction
-						alu_op <= "";
-						b_inv <= '';
+						alu_op <= "11";
+						b_inv <= '1';
 					END IF;
 				END IF;
 			END IF;
 				
 		-- Memory stage
 		ELSIF(stage = 4) THEN
-		
+			-- R-type instructions
+			IF(opCode(3) = '0' AND opCode(2) = '0') THEN
+				IF(opCode(1) = '0' AND opCode(2) = '1') THEN
+					--This is for JR, just fill in the values for the if statement
+					--We will have to set some flags here in the future
+				END IF;
+			END IF;
 		
 		-- Write back stage
 		ELSIF(stage = 5) THEN
-		
+			--R-type instructions
+			IF(opCode(3) = '0' AND opCode(2) = '0') THEN
+				IF(opCode(1) = '0' AND opCode(0) = '1') THEN
+					--This is for JR, just fill in the values for the if statement
+				ELSIF(opCode(1) = '0' AND opCode(0) = '0') THEN
+					rf_write <= '1';
+				END IF;
+			END IF;
+		END IF;
 		
 		END IF;
 	END PROCESS;
