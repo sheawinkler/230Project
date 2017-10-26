@@ -7,15 +7,6 @@ entity DataPath is
 			Clock 			:in std_logic;
 			Reset 			:in std_logic;
 			IR					:IN std_logic_vector(23 downto 0);
-			N, C, V, Z 		:in std_logic;
-			
-			--Immediate inputs
-			immed				: in std_logic_vector(6 downto 0);
-			extend			: in std_logic_vector(1 downto 0);
-			
-			--DataPath output feed into 
-			DataOut			:out std_logic_vector(15 downto 0)
-			
 		);
 		
 end DataPath;
