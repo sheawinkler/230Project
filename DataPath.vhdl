@@ -4,8 +4,8 @@ use ieee.std_logic_1164.all;
 entity DataPath is
 	port (
 			--ControlUnit inputs
-			Clock 			:in std_logic;
 			Reset 			:in std_logic;
+			Clock 			:in std_logic;
 			IR					:IN std_logic_vector(23 downto 0);
 		);
 		
@@ -98,9 +98,96 @@ architecture archOne of DataPath is
 		);
 	end component;
 	
-	signal 	 : std_logic_vector(15 downto 0);
-	signal	 : std_logic;
+	---------------
+	--- Signals ---
+		
+	signal	ir_enable, N, C, V, Z, mfc : std_logic;
+	signal	rf_write, b_select, a_inv, b_inv : std_logic;
+	signal	ir_enable, ma_select, mem_read, mem_write : std_logic;
+	signal	pc_select, pc_enable, inc_select : std_logic;
+	signal	alu_op, c_select, y_select, extend : std_logic_vector(1 downto 0);
+	signal	RegD, RegT, RegS : std_logic_vector(3 downto 0);
+	signal 	DataD, DataS, DataT, RA_output, RB_output: std_logic_vector(15 downto 0);
+	signal 	IR_output: std_logic_vector(23 downto 0);
 	
 begin
 
+	--- Instruction Register ---
+	
+	InstructionReg: Reg24 PORT MAP(IR, ir_enable, Reset, Clock, IR_output);
+	
+	
+	------------
+	--- IR_output = not sure if i broke the signal out correctly
+	------------
+	
+	--- Control Unit ---
+	
+	ControlUnit: ControlUnit PORT MAP(
+		--Inputs--
+			--OpCode--
+			IR_output(23,22,21,20),
+			--Cond--
+			IR_output(19,18,17,16),
+			--opx--
+			IR_output(14,13,12),
+			--S--
+			IR_output(15),
+			--Flags and other signals inputs--
+			N, C, V, Z, mfc, Clock, Reset,
+			
+		--Outputs--
+			alu_op, c_select, y_select,
+			rf_write, b_selec,
+			a_inv, b_inv,
+			extend,
+			ir_enable, ma_select,
+			mem_read, mem_write,
+			pc_select, pc_enable, inc_select
+			);
+
+	--- RegisterFile ---
+
+	RegisterFile: RegisterFile PORT MAP(
+		--Inputs--
+			Reset, Enable, Clock,
+			RegD, RegT, RegS, DataD,
+			 
+		--Outputs--
+			DataS, DataT
+			);
+	
+	
+	
+	------------
+	--- Register, ir_enable do not think is correctly hooked up, need to find what enable the RA and RB
+	------------					
+			
+	--- Register RA ---
+	
+	RegRA: Reg16 PORT MAP(DataS, ir_enable, Reset, Clock, RA_output);
+			 
+	--- Register RB ---
+	
+	RegRB: Reg16 PORT MAP(DataT, ir_enable, Reset, Clock, RB_output);	
+	
+	
+	--- MuxB ---
+	
+	
+	--- ALU ---
+
+	
+	--- Register RZ ---
+
+
+	--- Register RM ---	
+	
+	
+	--- MuxY ---
+	
+	
+	--- Register RY ---		
+
+	
 end archOne;
