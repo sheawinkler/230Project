@@ -108,6 +108,7 @@ architecture archOne of DataPath is
 	signal	alu_op, c_select, y_select, extend : std_logic_vector(1 downto 0);
 	signal	RegD, RegT, RegS : std_logic_vector(3 downto 0);
 	signal 	DataD, DataS, DataT, RA_output, RB_output: std_logic_vector(15 downto 0);
+	signal 	ALU_out: std_logic_vector(15 downto 0);
 	signal 	IR_output: std_logic_vector(23 downto 0);
 	
 begin
@@ -116,21 +117,16 @@ begin
 	
 	InstructionReg: Reg24 PORT MAP(IR, ir_enable, Reset, Clock, IR_output);
 	
-	
-	------------
-	--- IR_output = not sure if i broke the signal out correctly
-	------------
-	
 	--- Control Unit ---
 	
 	ControlUnit: ControlUnit PORT MAP(
 		--Inputs--
 			--OpCode--
-			IR_output(23,22,21,20),
+			IR_output(23 downto 20),
 			--Cond--
-			IR_output(19,18,17,16),
+			IR_output(19 downto 16),
 			--opx--
-			IR_output(14,13,12),
+			IR_output(14 downto 12),
 			--S--
 			IR_output(15),
 			--Flags and other signals inputs--
@@ -151,40 +147,107 @@ begin
 	RegisterFile: RegisterFile PORT MAP(
 		--Inputs--
 			Reset, Enable, Clock,
-			RegD, RegT, RegS, DataD,
+			
+			-- RegD --
+			IR_output(11 downto 8),
+			
+			-- RegS --
+			IR_output(7 downto 4),
+			
+			-- RegT --
+			IR_output(3 downto 0),
+
+			-- DataD --
+			DataD,
 			 
 		--Outputs--
 			DataS, DataT
 			);
 	
-	
-	
-	------------
-	--- Register, ir_enable do not think is correctly hooked up, need to find what enable the RA and RB
-	------------					
-			
+
 	--- Register RA ---
 	
-	RegRA: Reg16 PORT MAP(DataS, ir_enable, Reset, Clock, RA_output);
+	RegRA: Reg16 PORT MAP(DataS, 1 , Reset, Clock, RA_output);
 			 
 	--- Register RB ---
 	
-	RegRB: Reg16 PORT MAP(DataT, ir_enable, Reset, Clock, RB_output);	
+	RegRB: Reg16 PORT MAP(DataT, 1 , Reset, Clock, RB_output);	
+	
+	
+	
+	
+
+	--- Immediate Value ---
+	
+	Immediate: immediate PORT MAP(immed, extend, Immediate_output);
 	
 	
 	--- MuxB ---
 	
-	
+	MuxB: Mux16Bit2To1 PORT MAP(
+			-- "0" S bit --
+			RB_output,
+			
+			-- "1" S bit --
+			Immediate_output
+			
+			-- S bit --
+			b_select
+			
+			-- MuxB Output --
+			MuxB_Output
+			);
+
 	--- ALU ---
+	
+	ALU: ALU16Bit PORT MAP(
+		-- Inputs --
+			-- InA --
+			RA_output,
+			
+			-- InB --
+			MuxB_Output,
+			
+			-- Control Unit Flags --
+			a_inv,b_inv,
+			alu_op,
+			
+		-- Outputs --
+			ALU_out
+			N,C,Z,V
+			);
+	
+	
 
 	
 	--- Register RZ ---
-
+	RegRZ: Reg16 PORT MAP(ALU_out, 1 , Reset, Clock, RZ_output);	
 
 	--- Register RM ---	
-	
+	RegRM: Reg16 PORT MAP(RB_output, 1 , Reset, Clock, RM_output);	
 	
 	--- MuxY ---
+	MuxB: Mux16Bit2To1 PORT MAP(
+			-- "0" S bit --
+			RB_output,
+			
+			-- "1" S bit --
+			Immediate_output,
+			
+			-- S bit --
+			b_select,
+			
+			-- MuxB Output --
+			MuxB_Output
+			);
+	
+		--component mux16bit3to1
+		--port(
+		--	in1,in2,in3		: IN STD_LOGIC_VECTOR (15 DOWNTO 0);
+		--	sel				: IN STD_LOGIC_VECTOR (1 DOWNTO 0);
+		--	result			: OUT STD_LOGIC_VECTOR (15 DOWNTO 0)
+
+	
 	
 	
 	--- Register RY ---		
