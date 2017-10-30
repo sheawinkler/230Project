@@ -6,7 +6,7 @@ entity DataPath is
 			--ControlUnit inputs
 			Reset 			:in std_logic;
 			Clock 			:in std_logic;
-			IR					:IN std_logic_vector(23 downto 0);
+			IR					:IN std_logic_vector(23 downto 0)
 		);
 		
 end DataPath;
@@ -15,7 +15,7 @@ architecture archOne of DataPath is
 
 	component Mux16Bit2To1
 		port (
-			d0, d1,									: in std_logic_vector(15 downto 0);
+			d0, d1									: in std_logic_vector(15 downto 0);
 			sel 										: in std_logic;
 			f			 								: out std_logic_vector(15 downto 0)
 		);
@@ -108,7 +108,8 @@ architecture archOne of DataPath is
 	signal	alu_op, c_select, y_select, extend : std_logic_vector(1 downto 0);
 	signal	RegD, RegT, RegS : std_logic_vector(3 downto 0);
 	signal 	DataD, DataS, DataT, RA_output, RB_output: std_logic_vector(15 downto 0);
-	signal 	ALU_out: std_logic_vector(15 downto 0);
+	signal 	ALU_out, RZ_output, RM_output, MuxY_Mem, Ret_Address: std_logic_vector(15 downto 0);
+	signal 	MuxB_Output, MuxY_Output: std_logic_vector(15 downto 0);
 	signal 	IR_output: std_logic_vector(23 downto 0);
 	
 begin
@@ -189,10 +190,10 @@ begin
 			RB_output,
 			
 			-- "1" S bit --
-			Immediate_output
+			Immediate_output,
 			
 			-- S bit --
-			b_select
+			b_select,
 			
 			-- MuxB Output --
 			MuxB_Output
@@ -213,7 +214,7 @@ begin
 			alu_op,
 			
 		-- Outputs --
-			ALU_out
+			ALU_out,
 			N,C,Z,V
 			);
 	
@@ -227,30 +228,24 @@ begin
 	RegRM: Reg16 PORT MAP(RB_output, 1 , Reset, Clock, RM_output);	
 	
 	--- MuxY ---
-	MuxB: Mux16Bit2To1 PORT MAP(
-			-- "0" S bit --
-			RB_output,
+	MuxY: mux16bit3to1 PORT MAP(
+			-- "00" S bit --
+			RZ_output,
 			
-			-- "1" S bit --
-			Immediate_output,
+			-- "01" S bit --
+			MuxY_Mem,
+			
+			-- "10" S bit --
+			Ret_Address,
 			
 			-- S bit --
-			b_select,
+			y_select,
 			
-			-- MuxB Output --
-			MuxB_Output
+			-- MuxY Output --
+			MuxY_Output
 			);
 	
-		--component mux16bit3to1
-		--port(
-		--	in1,in2,in3		: IN STD_LOGIC_VECTOR (15 DOWNTO 0);
-		--	sel				: IN STD_LOGIC_VECTOR (1 DOWNTO 0);
-		--	result			: OUT STD_LOGIC_VECTOR (15 DOWNTO 0)
-
-	
-	
-	
 	--- Register RY ---		
-
+	RegRY: Reg16 PORT MAP(MuxY_Output, 1 , Reset, Clock, DataD);	
 	
 end archOne;
