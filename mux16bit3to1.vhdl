@@ -1,14 +1,13 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-component mux16bit3to1
-	PORT
-	(
+entity mux16bit3to1 is
+	port (
 		in1,in2,in3		: IN STD_LOGIC_VECTOR (15 DOWNTO 0);
 		sel		: IN STD_LOGIC_VECTOR (1 DOWNTO 0);
 		result		: OUT STD_LOGIC_VECTOR (15 DOWNTO 0)
 	);
-end component;
+end mux16bit3to1;
 
 architecture arc of mux16bit3to1 is
 

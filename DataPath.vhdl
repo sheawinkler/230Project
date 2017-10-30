@@ -103,13 +103,14 @@ architecture archOne of DataPath is
 		
 	signal	ir_enable, N, C, V, Z, mfc : std_logic;
 	signal	rf_write, b_select, a_inv, b_inv : std_logic;
-	signal	ir_enable, ma_select, mem_read, mem_write : std_logic;
+	signal	ma_select, mem_read, mem_write : std_logic;
 	signal	pc_select, pc_enable, inc_select : std_logic;
 	signal	alu_op, c_select, y_select, extend : std_logic_vector(1 downto 0);
 	signal	RegD, RegT, RegS : std_logic_vector(3 downto 0);
+	signal	immed : std_logic_vector(6 downto 0);
 	signal 	DataD, DataS, DataT, RA_output, RB_output: std_logic_vector(15 downto 0);
 	signal 	ALU_out, RZ_output, RM_output, MuxY_Mem, Ret_Address: std_logic_vector(15 downto 0);
-	signal 	MuxB_Output, MuxY_Output: std_logic_vector(15 downto 0);
+	signal 	MuxB_Output, MuxY_Output, Immediate_output: std_logic_vector(15 downto 0);
 	signal 	IR_output: std_logic_vector(23 downto 0);
 	
 begin
@@ -120,7 +121,7 @@ begin
 	
 	--- Control Unit ---
 	
-	ControlUnit: ControlUnit PORT MAP(
+	ControlUnit1: ControlUnit PORT MAP(
 		--Inputs--
 			--OpCode--
 			IR_output(23 downto 20),
@@ -135,7 +136,7 @@ begin
 			
 		--Outputs--
 			alu_op, c_select, y_select,
-			rf_write, b_selec,
+			rf_write, b_select,
 			a_inv, b_inv,
 			extend,
 			ir_enable, ma_select,
@@ -145,9 +146,14 @@ begin
 
 	--- RegisterFile ---
 
-	RegisterFile: RegisterFile PORT MAP(
+	RegisterFile1: RegisterFile PORT MAP(
 		--Inputs--
-			Reset, Enable, Clock,
+			Reset, 
+			
+			-- Enable --
+			rf_write, 
+			
+			Clock,
 			
 			-- RegD --
 			IR_output(11 downto 8),
@@ -168,11 +174,11 @@ begin
 
 	--- Register RA ---
 	
-	RegRA: Reg16 PORT MAP(DataS, 1 , Reset, Clock, RA_output);
+	RegRA: reg16 PORT MAP(DataS, '1' , Reset, Clock, RA_output);
 			 
 	--- Register RB ---
 	
-	RegRB: Reg16 PORT MAP(DataT, 1 , Reset, Clock, RB_output);	
+	RegRB: reg16 PORT MAP(DataT, '1' , Reset, Clock, RB_output);	
 	
 	
 	
@@ -180,7 +186,7 @@ begin
 
 	--- Immediate Value ---
 	
-	Immediate: immediate PORT MAP(immed, extend, Immediate_output);
+	Immediate1: immediate PORT MAP(immed, extend, Immediate_output);
 	
 	
 	--- MuxB ---
@@ -222,10 +228,10 @@ begin
 
 	
 	--- Register RZ ---
-	RegRZ: Reg16 PORT MAP(ALU_out, 1 , Reset, Clock, RZ_output);	
+	RegRZ: reg16 PORT MAP(ALU_out, '1' , Reset, Clock, RZ_output);	
 
 	--- Register RM ---	
-	RegRM: Reg16 PORT MAP(RB_output, 1 , Reset, Clock, RM_output);	
+	RegRM: reg16 PORT MAP(RB_output, '1' , Reset, Clock, RM_output);	
 	
 	--- MuxY ---
 	MuxY: mux16bit3to1 PORT MAP(
@@ -246,6 +252,6 @@ begin
 			);
 	
 	--- Register RY ---		
-	RegRY: Reg16 PORT MAP(MuxY_Output, 1 , Reset, Clock, DataD);	
+	RegRY: reg16 PORT MAP(MuxY_Output, '1' , Reset, Clock, DataD);	
 	
 end archOne;
