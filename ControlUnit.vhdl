@@ -7,7 +7,8 @@ entity ControlUnit is
 			Cond 										:in std_logic_vector(3 downto 0);
 			opx 										:in std_logic_vector(2 downto 0);
 			S 											:in std_logic;
-			N, C, V, Z 								:in std_logic;
+			-- NCVZ used in PS --
+			PS											:in std_logic_vector(3 downto 0);
 			mfc 										:in std_logic;
 			clock, reset 							:in std_logic;
 			

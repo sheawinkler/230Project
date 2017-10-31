@@ -16,8 +16,8 @@ architecture archOne of DataPath is
 	component Mux16Bit2To1
 		port (
 			a, b : in std_logic_vector(15 downto 0);
-			s : in std_logic;
-			y : out std_logic_vector(15 downto 0)
+			y : out std_logic_vector(15 downto 0);
+			s : in std_logic
 			
 		);
 	end component;
@@ -61,7 +61,8 @@ architecture archOne of DataPath is
 			Cond 										:in std_logic_vector(3 downto 0);
 			opx 										:in std_logic_vector(2 downto 0);
 			S 											:in std_logic;
-			N, C, V, Z 								:in std_logic;
+			-- NCVZ used in PS --			
+			PS											:in std_logic_vector(3 downto 0);
 			mfc 										:in std_logic;
 			clock, reset 							:in std_logic;
 			
@@ -99,6 +100,14 @@ architecture archOne of DataPath is
 		);
 	end component;
 	
+	component PS
+		port(	
+			N, C, V, Z					:IN std_logic;
+			enable, reset, Clock		:IN std_logic;
+			output						:OUT std_logic_vector (3 DOWNTO 0)
+		);			
+	end component;
+	
 	---------------
 	--- Signals ---
 		
@@ -107,7 +116,7 @@ architecture archOne of DataPath is
 	signal	ma_select, mem_read, mem_write : std_logic;
 	signal	pc_select, pc_enable, inc_select : std_logic;
 	signal	alu_op, c_select, y_select, extend : std_logic_vector(1 downto 0);
-	signal	RegD, RegT, RegS : std_logic_vector(3 downto 0);
+	signal	RegD, RegT, RegS, PS_out : std_logic_vector(3 downto 0);
 	signal	immed : std_logic_vector(6 downto 0);
 	signal 	DataD, DataS, DataT, RA_output, RB_output: std_logic_vector(15 downto 0);
 	signal 	ALU_out, RZ_output, RM_output, MuxY_Mem, Ret_Address: std_logic_vector(15 downto 0);
@@ -119,6 +128,11 @@ begin
 	--- Instruction Register ---
 	
 	InstructionReg: Reg24 PORT MAP(IR, ir_enable, Reset, Clock, IR_output);
+	
+	--- PS ---
+
+	PS1: PS PORT MAP(N, C, V, Z, '1', reset, Clock, PS_out);
+
 	
 	--- Control Unit ---
 	
@@ -133,7 +147,9 @@ begin
 			--S--
 			IR_output(15),
 			--Flags and other signals inputs--
-			N, C, V, Z, mfc, Clock, Reset,
+			--NCVZ used in PS_out--
+			PS_out, 
+			mfc, Clock, Reset,
 			
 		--Outputs--
 			alu_op, c_select, y_select,
@@ -200,11 +216,13 @@ begin
 			-- "1" S bit --
 			Immediate_output,
 			
-			-- S bit --
-			b_select,
-			
 			-- MuxB Output --
-			MuxB_Output	
+			MuxB_Output,	
+			
+			-- S bit --
+			b_select
+			
+
 	
 	);
 
