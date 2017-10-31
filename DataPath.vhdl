@@ -15,9 +15,10 @@ architecture archOne of DataPath is
 
 	component Mux16Bit2To1
 		port (
-			d0, d1									: in std_logic_vector(15 downto 0);
-			sel 										: in std_logic;
-			f			 								: out std_logic_vector(15 downto 0)
+			a, b : in std_logic_vector(15 downto 0);
+			s : in std_logic;
+			y : out std_logic_vector(15 downto 0)
+			
 		);
 	end component;
 
@@ -192,6 +193,7 @@ begin
 	--- MuxB ---
 	
 	MuxB: Mux16Bit2To1 PORT MAP(
+	
 			-- "0" S bit --
 			RB_output,
 			
@@ -202,8 +204,9 @@ begin
 			b_select,
 			
 			-- MuxB Output --
-			MuxB_Output
-			);
+			MuxB_Output	
+	
+	);
 
 	--- ALU ---
 	
