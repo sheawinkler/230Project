@@ -6,7 +6,17 @@ entity DataPath is
 			--ControlUnit inputs
 			Reset 			:in std_logic;
 			Clock 			:in std_logic;
-			IR					:IN std_logic_vector(23 downto 0)
+			IR					:IN std_logic_vector(23 downto 0);
+			
+			
+			ALU_out_test 				: out std_logic_vector(15 downto 0);
+			PS_out_test					: out std_logic_vector(3 downto 0);
+			DataD_test					: out std_logic_vector(15 downto 0);			
+			RA_output_test				: out std_logic_vector(15 downto 0);
+			RB_output_test				: out std_logic_vector(15 downto 0);
+			Immediate_output_test	: out std_logic_vector(15 downto 0);
+			RM_output_test				: out std_logic_vector(15 downto 0);
+			RZ_output_test				: out std_logic_vector(15 downto 0)
 		);
 		
 end DataPath;
@@ -274,5 +284,16 @@ begin
 	
 	--- Register RY ---		
 	RegRY: reg16 PORT MAP(MuxY_Output, '1' , Reset, Clock, DataD);	
+	
+	--- Test Outputs for the Simulation ---
+			ALU_out_test <= ALU_out;
+			PS_out_test <= PS_out;
+			DataD_test	<= Datad;			
+			RA_output_test	<= RA_output;		
+			RB_output_test	<= RB_output;		
+			Immediate_output_test  <= Immediate_output;
+			RM_output_test  <= RM_output;			
+			RZ_output_test	 <= RZ_output;
+			
 	
 end archOne;
