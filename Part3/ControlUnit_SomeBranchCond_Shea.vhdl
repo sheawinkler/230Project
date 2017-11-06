@@ -96,7 +96,7 @@ begin
 						alu_op <= "11";
 						b_inv <= '1';
 					END IF;
-				--Branch conditional instructions (from conditional table in project overview..not sure if this is right stage --Shea)
+			--Branch conditional instructions (from conditional table in project overview..not sure if this is right stage --Shea)
 			ELSIF(opCod(3) = '1' AND opCod(2) = '0') THEN
 				IF(opCode(1) = '0' AND opCode(0) = '0') THEN
 					--conditional bits
@@ -148,12 +148,10 @@ begin
 					--Less than or equal
 					ELSIF (Cond = "1111") THEN
 						--Z OR (((N AND (NOT V)) OR ((NOT Z) AND V)))
-					
-				END IF;
-			END IF;
-			
-			ELSIF(opCode(3) = '1' AND opCode(2) = '0') THEN
-				IF (opCode(1) = '0' AND opCode(0) = '1') THEN
+					END IF;	
+
+				--Branch and Link (bal)
+				ELSIF (opCode(1) = '0' AND opCode(0) = '1') THEN
 					--conditional bits
 					--Always
 					IF (Cond = "0000") THEN
@@ -203,8 +201,10 @@ begin
 					--Less than or equal
 					ELSIF (Cond = "1111") THEN
 						--Z OR (((N AND (NOT V)) OR ((NOT Z) AND V)))
-					
-				
+					END IF;
+				END IF;
+			END IF;
+			
 		-- Memory stage
 		ELSIF(stage = 4) THEN
 			-- R-type instructions
