@@ -17,5 +17,5 @@ begin
 	with c_Select select
 		regRD <= IR26 when "00",
 		IR21 when "01",
-		LINK when "10"
+		LINK when "10";
 end arc_muxC
