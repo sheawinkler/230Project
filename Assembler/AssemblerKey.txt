@@ -1,0 +1,20 @@
+16 Registers: 0-15
+R-TYPE INSTRUCTIONS			OPCODE		OPX		CONDITIONAL	
+-jr (jump register)			0001		000
+-cmp (compare)				0010		000
+-lw (load word)				0100
+-sw (store word)			0101
+-addi (add immediate)		0110
+-si (sub immediate)			0111		
+-b (branch)					1000				 0000-1111
+-bal (branch and link)		1001				 0000-1111
+-add 						0000		100
+-sub						0000		011
+-and						0000		111
+-or							0000		110
+-xor						0000		101
+-sll						0011		000	--NOT REQUIRED
+
+
+
+
