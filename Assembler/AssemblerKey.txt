@@ -16,5 +16,17 @@ R-TYPE INSTRUCTIONS			OPCODE		OPX		CONDITIONAL
 -sll						0011		000	--NOT REQUIRED
 
 
+Below are the conditionals that have been implemented so far,
+add more if time allows.
+
+Conditionals			CondBits
+Always					0000
+Equal					0010
+Not Equal				0011
+Positive or Zero		0111
+Greater than			1100
+Less than				1101
+Greater than or equal	1110
+Less than or equal		1111
 
 
