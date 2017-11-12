@@ -227,7 +227,7 @@ begin
 		ELSIF(stage = 4) THEN
 			-- R-type instructions
 			IF(opCode(3) = '0' AND opCode(2) = '0') THEN
-				y_select <= '0'; --Select the result from the ALU for R-type instructions. -Molly
+				y_select <= "00"; --Select the result from the ALU for R-type instructions. -Molly
 				IF(opCode(1) = '0' AND opCode(2) = '1') THEN
 					--This is for JR, just fill in the values for the if statement
 					--We will have to set some flags here in the future
@@ -261,7 +261,7 @@ begin
 					--This is for JR, just fill in the values for the if statement
 				ELSIF(opCode(1) = '0' AND opCode(0) = '0') THEN
 					rf_write <= '1';
-					c_select <= '01'; --I think this goes here? (See PowerPoints) -Molly
+					c_select <= "01"; --I think this goes here? (See PowerPoints) -Molly
 				END IF;
 			
 			--D-type instructions (LW)
