@@ -75,14 +75,15 @@ begin
 		ELSIF(stage = 3) THEN
 			-- R-type instructions
 			IF(opCode(3) = '0' AND opCode(2) = '0') THEN
+				b_select <= '0'; --All R-type instructions select RB not Immediate value in MuxB. -Molly
 				IF(opCode(1) = '0' AND opCode(0) = '1') THEN
-					-- This is for JR, just fill in the values for the if statement
+					-- This is for JR, just fill in the values for the if statement.
 				ELSIF(opCode(1) = '1' AND opCode(0) = '0') THEN
-					-- This is for CMP instructions
+					-- This is for CMP.  I don't think we need to do anything else here in Stage 3? -Molly
 				ELSIF (opCode(1) = '1' AND opCode(0) = '0') THEN
-					-- This is for SLL instructions
+					-- This is for SLL instructions.  We haven't implemented this yet. -Molly
 				ELSIF(opCode(1) = '0' AND opCode(0) = '0') THEN
-					-- This is for the other instructions
+					-- This is for the other R-type instructions.
 					IF(opx = "111")THEN
 						-- AND insturction
 						alu_op <= "00";
@@ -226,9 +227,11 @@ begin
 		ELSIF(stage = 4) THEN
 			-- R-type instructions
 			IF(opCode(3) = '0' AND opCode(2) = '0') THEN
+				y_select <= '0'; --Select the result from the ALU for R-type instructions. -Molly
 				IF(opCode(1) = '0' AND opCode(2) = '1') THEN
 					--This is for JR, just fill in the values for the if statement
 					--We will have to set some flags here in the future
+					--Do we set flags with cmp, branch, or jr???????????? -Molly 
 				END IF;
 				
 			--D-type instructions	
@@ -258,6 +261,7 @@ begin
 					--This is for JR, just fill in the values for the if statement
 				ELSIF(opCode(1) = '0' AND opCode(0) = '0') THEN
 					rf_write <= '1';
+					c_select <= '01'; --I think this goes here? (See PowerPoints) -Molly
 				END IF;
 			
 			--D-type instructions (LW)
