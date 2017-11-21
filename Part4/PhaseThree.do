@@ -1,7 +1,7 @@
 vsim DataPath
 view wave
 
-
+add wave Reset
 add wave Clock
 
 add wave PS_out_test
@@ -24,8 +24,8 @@ add wave LEDG
 add wave HEX0
 
 
-force clock 0 0, 1 1000 -repeat 2000
-force KEY 0000 0, 0100 2000 -repeat 4000
-force SW 0000000000 0, 0000001000 4000 -repeat 8000
-
-run 150000
+force clock 0 0, 1 2000 -repeat 4000
+force KEY 0100 0
+force SW 0000001000 0
+force Reset 0 0
+run 600000
