@@ -47,7 +47,7 @@ begin
 		excute_enable <= '0';
 	--B-type instructions: Branch(br) AND Branch and Link (bal)
 			--conditional instructions (from conditional table in project overview)
-			IF(opCode(3) = '1' AND opCode(2) = '0' AND opCode(1) = '0') THEN
+			--IF(opCode(3) = '1' AND opCode(2) = '0' AND opCode(1) = '0') THEN
 				--IF(opCode(1) = '0') THEN
 					--conditional bits NZVC
 					--Always
@@ -116,64 +116,10 @@ begin
 						excute_enable <= '1';
 					ELSE
 						excute_enable <= '0';
-					END IF;	
-
-				--Branch and Link (bal) NZVC
---				ELSIF (opCode(1) = '0' AND opCode(0) = '1') THEN
---			
---					--conditional bits
---					--Always
---					IF (Cond = "0000") THEN
---						--no flag?
---					--Never
---					ElSIF (Cond = "0001") THEN
---						--no flag?
---					--Equal
---					ELSIF (Cond = "0010") THEN
---						--set Z = '1'; (Z)
---					--Not Equal
---					ELSIF (Cond = "0011") THEN
---						--set Z = '0'; (NOT Z)
---					--Overflow
---					ELSIF (Cond = "0100") THEN
---						--set V = '1'; (V)
---					--No Overflow
---					ELSIF (Cond = "0101") THEN
---						--set V = '0'; (NOT V)
---					--Negative
---					ELSIF (Cond = "0110") THEN
---						--set N = '1'; (N)
---					--Positive or Zero
---					ELSIF (Cond = "0111") THEN
---						--set N = '0'; (NOT N)
---					--Unsigned higher or same
---					ELSIF (Cond = "1000") THEN
---						--set C = '1'; (C)
---					--Unsigned lower
---					ELSIF (Cond = "1001") THEN
---						--set C = '0'; (NOT C)
---					--Unsigned higher
---					ELSIF (Cond = "1010") THEN
---						-- (C AND (NOT Z)
---					--Unsigned Lower or same
---					ELSIF (Cond = "1011") THEN
---						-- (NOT C) OR Z
---					--Greater than
---					ELSIF (Cond = "1100") THEN
---						--(NOT Z) AND ((N AND V) OR ((NOT N AND (NOT V)))
---					--Less than
---					ELSIF (Cond = "1101") THEN
---						--(N AND (NOT V) OR ((NOT Z) AND V)
---					--Greater than or equal
---					ELSIF (Cond = "1110") THEN
---						--(N AND V) OR ((NOT N) AND (NOT V))
---					--Less than or equal
---					ELSIF (Cond = "1111") THEN
---						--Z OR (((N AND (NOT V)) OR ((NOT Z) AND V)))
---					END IF;
-				--END IF;
+					END IF;
 				ELSIF (S = '0') THEN
-		END IF;
+				excute_enable <= '1';
+			END IF;
 		
 
 	
@@ -251,115 +197,7 @@ begin
 					END IF;
 				END IF;
 				
-			--B-type instructions
-			--Branch conditional instructions (from conditional table in project overview..not sure if this is right stage --Shea)
---			ELSIF(opCode(3) = '1' AND opCode(2) = '0') THEN
---				IF(opCode(1) = '0' AND opCode(0) = '0') THEN
---					--conditional bits
---					--Always
---					IF (Cond = "0000") THEN
---						--no flag?
---					--Never
---					ElSIF (Cond = "0001") THEN
---						--no flag?
---					--Equal
---					ELSIF (Cond = "0010") THEN
---						--set Z = '1'; (Z)
---					--Not Equal
---					ELSIF (Cond = "0011") THEN
---						--set Z = '0'; (NOT Z)
---					--Overflow
---					ELSIF (Cond = "0100") THEN
---						--set V = '1'; (V)
---					--No Overflow
---					ELSIF (Cond = "0101") THEN
---						--set V = '0'; (NOT V)
---					--Negative
---					ELSIF (Cond = "0110") THEN
---						--set N = '1'; (N)
---					--Positive or Zero
---					ELSIF (Cond = "0111") THEN
---						--set N = '0'; (NOT N)
---					--Unsigned higher or same
---					ELSIF (Cond = "1000") THEN
---						--set C = '1'; (C)
---					--Unsigned lower
---					ELSIF (Cond = "1001") THEN
---						--set C = '0'; (NOT C)
---					--Unsigned higher
---					ELSIF (Cond = "1010") THEN
---						-- (C AND (NOT Z)
---					--Unsigned Lower or same
---					ELSIF (Cond = "1011") THEN
---						-- (NOT C) OR Z
---					--Greater than
---					ELSIF (Cond = "1100") THEN
---						--(NOT Z) AND ((N AND V) OR ((NOT N AND (NOT V)))
---					--Less than
---					ELSIF (Cond = "1101") THEN
---						--(N AND (NOT V) OR ((NOT Z) AND V)
---					--Greater than or equal
---					ELSIF (Cond = "1110") THEN
---						--(N AND V) OR ((NOT N) AND (NOT V))
---					--Less than or equal
---					ELSIF (Cond = "1111") THEN
---						--Z OR (((N AND (NOT V)) OR ((NOT Z) AND V)))
---					END IF;	
---
---				--Branch and Link (bal)
---				ELSIF (opCode(1) = '0' AND opCode(0) = '1') THEN
---			
---					--conditional bits
---					--Always
---					IF (Cond = "0000") THEN
---						--no flag?
---					--Never
---					ElSIF (Cond = "0001") THEN
---						--no flag?
---					--Equal
---					ELSIF (Cond = "0010") THEN
---						--set Z = '1'; (Z)
---					--Not Equal
---					ELSIF (Cond = "0011") THEN
---						--set Z = '0'; (NOT Z)
---					--Overflow
---					ELSIF (Cond = "0100") THEN
---						--set V = '1'; (V)
---					--No Overflow
---					ELSIF (Cond = "0101") THEN
---						--set V = '0'; (NOT V)
---					--Negative
---					ELSIF (Cond = "0110") THEN
---						--set N = '1'; (N)
---					--Positive or Zero
---					ELSIF (Cond = "0111") THEN
---						--set N = '0'; (NOT N)
---					--Unsigned higher or same
---					ELSIF (Cond = "1000") THEN
---						--set C = '1'; (C)
---					--Unsigned lower
---					ELSIF (Cond = "1001") THEN
---						--set C = '0'; (NOT C)
---					--Unsigned higher
---					ELSIF (Cond = "1010") THEN
---						-- (C AND (NOT Z)
---					--Unsigned Lower or same
---					ELSIF (Cond = "1011") THEN
---						-- (NOT C) OR Z
---					--Greater than
---					ELSIF (Cond = "1100") THEN
---						--(NOT Z) AND ((N AND V) OR ((NOT N AND (NOT V)))
---					--Less than
---					ELSIF (Cond = "1101") THEN
---						--(N AND (NOT V) OR ((NOT Z) AND V)
---					--Greater than or equal
---					ELSIF (Cond = "1110") THEN
---						--(N AND V) OR ((NOT N) AND (NOT V))
---					--Less than or equal
---					ELSIF (Cond = "1111") THEN
---						--Z OR (((N AND (NOT V)) OR ((NOT Z) AND V)))
---					END IF;
--- 			END IF;
+			
 			--D-type instructions
 			ELSIF(opCode(3) = '0' AND opCode(2) = '1' AND excute_enable = '1') THEN
 				--Is the following IF statement necessary if b_select and alu_op are the same for LW/SW/Addi??? -Molly
@@ -394,10 +232,24 @@ begin
 				ELSIF(opCode(1) = '0' AND opCode(0) = '1') THEN
 					--SW instructions
 					mem_write <= '1';
+					
 					--while(!mfc)
 						--Wait for mfc
 					--end while loop 
 				END IF;
+				
+			--B-type instructions
+			--Branch conditional instructions (from conditional table in project overview..not sure if this is right stage --Shea)
+			ELSIF(opCode(3) = '1' AND opCode(2) = '0') THEN
+				IF(opCode(1) = '0' AND opCode(0) = '0') THEN
+				
+				
+				
+				--Branch and Link (bal)
+				ELSIF (opCode(1) = '0' AND opCode(0) = '1') THEN
+				y_select <= "10";
+				END IF;
+				
 			END IF;
 		
 		-- Write back stage
@@ -424,7 +276,6 @@ begin
 					alu_op <= "11";
 			END IF;
 		END IF;
-	END IF;
 	END IF;
 	END PROCESS;
 
