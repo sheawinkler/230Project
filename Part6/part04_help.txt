@@ -1,0 +1,19 @@
+PC not updating correctly
+inputs to iag are incorrect
+
+Things to check:
+pc_select = 1
+pc_enable = 1
+inc_select
+make sure feeding it right immediate value
+
+if pc_enable is 1, every clock cycle it will update the pc value
+stage 3 is set to 1
+stage 4 it's still 1 so it updates pc again
+stage 5 it's still 1 so it updates the pc yet again
+
+immediate value
+not passing in the right 16 bits
+
+
+
