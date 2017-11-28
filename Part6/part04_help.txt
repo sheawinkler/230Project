@@ -15,5 +15,7 @@ stage 5 it's still 1 so it updates the pc yet again
 immediate value
 not passing in the right 16 bits
 
-
+Two different immediatie_output values
+1.) D-Type immediate values are 7 bits long
+2.) B-Type immediate values are 16 bits long
 
